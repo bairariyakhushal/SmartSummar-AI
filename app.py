@@ -32,22 +32,23 @@ if st.button("Summarize") :
         st.error("Please enter a valid Url")
     else:
         try:
-            if "youtube.com" in generic_url:
-                loader=YoutubeLoader.from_youtube_url(generic_url,add_video_info=False)
-            else:
-                loader=UnstructuredURLLoader(urls=[generic_url],ssl_verify=False,
+            with st.spinner("Loading...") :
+                if "youtube.com" in generic_url:
+                    loader=YoutubeLoader.from_youtube_url(generic_url,add_video_info=False)
+                else:
+                    loader=UnstructuredURLLoader(urls=[generic_url],ssl_verify=False,
                                              headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"})
         
-            docs=loader.load()
+                docs=loader.load()
         
-            chain=load_summarize_chain(
-                llm,
-                chain_type="stuff",
-                prompt=prompt
-            )
+                chain=load_summarize_chain(
+                    llm,
+                    chain_type="stuff",
+                    prompt=prompt
+                )
             
-            summary=chain.run({"input_documents":docs})
-            st.success(summary)
+                summary=chain.run({"input_documents":docs})
+                st.success(summary)
             
         except Exception as e:
             st.exception(f"Exception:{e}")
