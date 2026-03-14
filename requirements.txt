@@ -7,5 +7,7 @@ validators
 youtube-transcript-api
 unstructured
 pytubefix
+bs4
+lxml
 python-dotenv
 streamlit
